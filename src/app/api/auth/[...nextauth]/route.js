@@ -1,7 +1,9 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from 'next-auth/providers/credentials'
 
-const handler = NextAuth({
+
+export const authOptions = {
+    secret : process.env.NEXT_PUBLIC_AUTH_SECRET,
     session: {
         strategy: 'jwt'
     },
@@ -22,40 +24,42 @@ const handler = NextAuth({
                 if (!credentials) {
                     return null;
                 }
-       if(email){
-        const currentUser = users.find((user) => user.email === email)
-if(currentUser){
-if(currentUser.password === password) {
-    return currentUser;
-}
-}
-       }
-return null;
-            
+                if (email) {
+                    const currentUser = users.find((user) => user.email === email)
+                    if (currentUser) {
+                        if (currentUser.password === password) {
+                            return currentUser;
+                        }
+                    }
+                }
+                return null;
+
             }
 
         })
 
     ],
-});
+}
+
+const handler = NextAuth(authOptions);
 
 const users = [
     {
-        id : 1,
-        name : "Sujait",
-        email : "sujait@gmail.com",
-        password : "password",
+        id: 1,
+        name: "Sujait",
+        email: "sujait@gmail.com",
+        password: "password",
     },
     {
-        id : 2,
-        name : "Rony",
-        email : "rony@gmail.com",
-        password : "password",
-    },    {
-        id : 1,
-        name : "rahat",
-        email : "rahat@gmail.com",
-        password : "password",
+        id: 2,
+        name: "Rony",
+        email: "rony@gmail.com",
+        password: "password",
+    }, {
+        id: 1,
+        name: "rahat",
+        email: "rahat@gmail.com",
+        password: "password",
     }
 ]
 
