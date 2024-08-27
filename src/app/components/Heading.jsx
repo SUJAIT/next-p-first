@@ -1,4 +1,5 @@
 "use client"
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -9,6 +10,10 @@ const Heading = () => {
 const pathName = usePathname();
 console.log(pathName)
 const router = useRouter(); // next navigation theka imoprt korta hoba na hoi kaj korba na
+
+const session = useSession()
+ 
+console.log(session)
 
   const links = [
     {
@@ -47,7 +52,7 @@ dashboard Layout
 
 
   const handler = () =>{
-    router.push('/login')
+    router.push('/api/auth/signin')
   }
 
   return (
@@ -60,7 +65,7 @@ dashboard Layout
  }
 
 </ul>
-<button onClick={handler} className='bg-white text-cyan-400 p-4'>Login</button>
+{session.status === "authenticated" ? <button onClick={handler} className='bg-white text-cyan-400 p-4'>Login</button>:<button onClick={handler} className=''>Logout</button> }
     </nav>
   </div>
   )
