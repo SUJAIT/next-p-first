@@ -1,5 +1,6 @@
 "use client"
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -65,7 +66,23 @@ dashboard Layout
  }
 
 </ul>
-{session.status === "authenticated" ? <button onClick={handler} className='bg-white text-cyan-400 p-4'>Login</button>:<button onClick={handler} className=''>Logout</button> }
+<div>
+{session.status !== "authenticated" ? (<button onClick={handler} className='bg-white text-cyan-400 p-4'>Login</button>):(<button onClick={()=>signOut()} className='bg-white text-orange-600 font-semibold px-6 py-3 hover:bg-slat'>Logout</button> )}
+</div>
+   
+
+<div>
+  <h6>
+   
+    {session?.data?.user?.name}
+    <br />
+    {session?.data?.user?.type}
+  </h6>
+</div>
+{session?.data && <div className='rounded-full mr-3 overflow-hidden size-12'>
+<Image height={50} width={50} alt={session?.data?.user?.image} src={session?.data?.user?.image}/>
+</div>}
+
     </nav>
   </div>
   )

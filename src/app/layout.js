@@ -14,7 +14,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
+//sessino access AuthProvider
+        <AuthProvider> 
              <Heading/>
         {children}
         <footer>

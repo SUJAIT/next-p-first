@@ -5,7 +5,8 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 export const authOptions = {
     secret : process.env.NEXT_PUBLIC_AUTH_SECRET,
     session: {
-        strategy: 'jwt'
+        strategy: 'jwt',
+        updateAge: 24 * 60 * 60
     },
     providers: [
 
@@ -39,6 +40,26 @@ export const authOptions = {
         })
 
     ],
+
+    // This Callback function uses extra detail send  korar jonno
+
+    callbacks : {
+
+        async jwt({ token, account, user }) {
+            // Persist the OAuth access_token and or the user id to the token right after signin
+            if (account) {
+              token.type = user.type
+            
+            }
+            return token;
+          },
+
+        // custom
+        async session({ session, token }) {
+             session.user.type = token.type
+            return session;
+          },
+    }
 }
 
 const handler = NextAuth(authOptions);
@@ -49,6 +70,8 @@ const users = [
         name: "Sujait",
         email: "sujait@gmail.com",
         password: "password",
+        type : "admin",
+        image : "https://picsum.photos/200/300"
     },
     {
         id: 2,
